@@ -11,11 +11,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pokemonpro.R;
+import com.example.pokemonpro.data.models.Pokemon;
 import com.example.pokemonpro.data.models.PokemonResponse;
 import com.example.pokemonpro.data.repository.PokemonRepository;
+import com.example.pokemonpro.ui.home.PokemonAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,6 +33,8 @@ public class HomeActivity extends AppCompatActivity {
     EditText etSearch;
     Button btnAdd;
     RecyclerView rv;
+    List<Pokemon> watchlist = new ArrayList<>();
+    PokemonAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +46,24 @@ public class HomeActivity extends AppCompatActivity {
         btnAdd = findViewById(R.id.btnAdd);
         rv = findViewById(R.id.rvWatchlist);
 
+        adapter = new PokemonAdapter(this);
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+
         // temp onClick
         btnAdd.setOnClickListener(v -> {
             String input = etSearch.getText().toString();
-            Toast.makeText(this, "Search: " + input, Toast.LENGTH_SHORT).show();
+
+            if(input.isEmpty()) {
+                Toast.makeText(this, "Enter a Pokemon name or Id" + input, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if(!repo.isValidInput(input)){
+                Toast.makeText(this, "Invalid characters in input" + input, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            fetchAndAddPokemon(input);
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -69,6 +91,32 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PokemonResponse> call, Throwable throwable) {
                 Toast.makeText(HomeActivity.this, "Network Failure: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void fetchAndAddPokemon(String input) {
+        repo.getPokemon(input).enqueue(new Callback<PokemonResponse>() {
+            @Override
+            public void onResponse(Call<PokemonResponse> call, Response<PokemonResponse> response) {
+                if(response.isSuccessful() && response.body() != null) {
+
+                    PokemonResponse p = response.body();
+
+                    Pokemon pokemon = new Pokemon(p.id, p.name, p.sprites.frontDefault);
+
+                    watchlist.add(pokemon);
+                    adapter.updateData(watchlist);
+
+                    Toast.makeText(HomeActivity.this, p.name + " added!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(HomeActivity.this, "Pokemon not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PokemonResponse> call, Throwable throwable) {
+                Toast.makeText(HomeActivity.this, "Network error", Toast.LENGTH_SHORT).show();
             }
         });
     }
