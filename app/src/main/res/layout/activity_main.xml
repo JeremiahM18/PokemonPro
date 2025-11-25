@@ -5,15 +5,64 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.HomeActivity">
+    tools:context=".ui.HomeActivity"
+    android:padding="16dp">
 
+    <!-- Add container -->
+    <LinearLayout
+        android:id="@+id/searchContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="9dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="@string/enter"
+            android:inputType="text"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="@string/btnAdd"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- Watchlist Title -->
     <TextView
+        android:id="@+id/tvWatchlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/watchlist"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/searchContainer" />
+
+    <!-- RecyclerView for the Pokemon list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvWatchlist"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvWatchlist"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_pokemon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
