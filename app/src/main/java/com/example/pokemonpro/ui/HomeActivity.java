@@ -1,13 +1,16 @@
 package com.example.pokemonpro.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -36,12 +39,35 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView rv;
     List<Pokemon> watchlist = new ArrayList<>();
     PokemonAdapter adapter;
+    ImageButton btnToggle;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
+        prefs = getSharedPreferences("settings", MODE_PRIVATE);
+        int mode = prefs.getInt("theme", AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(mode);
+
         setContentView(R.layout.activity_main);
+
+        btnToggle = findViewById(R.id.btnThemeToggle);
+        btnToggle.setOnClickListener(v -> {
+            int current = AppCompatDelegate.getDefaultNightMode();
+            int newMode;
+
+            if (current == AppCompatDelegate.MODE_NIGHT_YES) {
+                newMode = AppCompatDelegate.MODE_NIGHT_NO;
+            } else {
+                newMode = AppCompatDelegate.MODE_NIGHT_YES;
+            }
+
+            prefs.edit().putInt("theme", newMode).apply();
+            AppCompatDelegate.setDefaultNightMode(newMode);
+
+        } );
 
         etSearch = findViewById(R.id.etSearch);
         btnAdd = findViewById(R.id.btnAdd);
@@ -80,9 +106,8 @@ public class HomeActivity extends AppCompatActivity {
             });
         });
 
-        // temp onClick
         btnAdd.setOnClickListener(v -> {
-            String input = etSearch.getText().toString();
+            String input = etSearch.getText().toString().trim();
 
             if(input.isEmpty()) {
                 Toast.makeText(this, "Enter a Pokemon name or Id", Toast.LENGTH_SHORT).show();
@@ -90,7 +115,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             if(!repo.isValidInput(input)){
-                Toast.makeText(this, "Invalid characters in input", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Invalid Pokemon name or Id", Toast.LENGTH_SHORT).show();
                 return;
             }
             fetchAndAddPokemon(input);

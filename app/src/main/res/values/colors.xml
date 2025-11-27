@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="purpleAccent">#BB86FC</color>
+    <color name="purpleAccentDark">#7B5CD6</color>
+
+    <color name="bgDark">#111116</color>
+    <color name="bgDarkElevated">#1B1B23</color>
+    <color name="bdCard">#22222C</color>
+
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="textPrimary">#FF000000</color>
+    <color name="textSecondary">#B3B3B3</color>
+    <color name="textSecondaryLight">#555555</color>
 </resources>

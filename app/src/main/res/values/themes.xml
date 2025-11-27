@@ -1,9 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.PokemonPro" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.PokemonPro" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+        <item name="colorPrimary">@color/purpleAccent</item>
+        <item name="colorPrimaryContainer">@color/purpleAccentDark</item>
 
-    <style name="Theme.PokemonPro" parent="Base.Theme.PokemonPro" />
+        <item name="android:colorBackground">@android:color/white</item>
+        <item name="colorSurface">@android:color/white</item>
+
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorSecondary">@color/textSecondaryLight</item>
+    </style>
 </resources>

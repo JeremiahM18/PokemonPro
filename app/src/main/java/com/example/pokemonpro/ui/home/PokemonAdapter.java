@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.pokemonpro.R;
 import com.example.pokemonpro.data.models.Pokemon;
 
@@ -33,6 +35,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     public PokemonAdapter(Context context)
     {
+
         this.context = context;
     }
 
@@ -52,6 +55,9 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
     public void onBindViewHolder(@NonNull PokemonViewHolder holder, int position) {
         Pokemon pokemon =  pokemons.get(position);
         holder.tvItem.setText(pokemon.id + " - " + pokemon.name);
+
+        // Load sprite image using Glide
+        Glide.with(context).load(pokemon.imageUrl).placeholder(R.drawable.ic_launcher_foreground).into(holder.ivSprite);
     }
 
     @Override
@@ -61,10 +67,12 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     class PokemonViewHolder extends RecyclerView.ViewHolder {
         TextView tvItem;
+        private ImageView ivSprite;
 
         public PokemonViewHolder(@NonNull View itemView) {
             super(itemView);
             tvItem = itemView.findViewById(R.id.tvPokemonItem);
+            ivSprite = itemView.findViewById(R.id.ivSprite);
 
             itemView.setOnClickListener(v -> {
                 if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {

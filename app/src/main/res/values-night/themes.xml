@@ -1,7 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.PokemonPro" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.PokemonPro" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/purpleAccent</item>
+        <item name="colorPrimaryContainer">@color/purpleAccentDark</item>
+
+        <item name="android:colorBackground">@color/bgDark</item>
+        <item name="colorSurface">@color/bgDarkElevated</item>
+
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:textColorSecondary">@color/textSecondary</item>
+
     </style>
 </resources>

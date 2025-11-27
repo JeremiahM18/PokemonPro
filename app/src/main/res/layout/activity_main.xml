@@ -8,6 +8,20 @@
     tools:context=".ui.HomeActivity"
     android:padding="16dp">
 
+    <ImageButton
+        android:id="@+id/btnThemeToggle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:padding="4dp"
+        android:src="@android:drawable/btn_star"
+        android:contentDescription="Toggle Theme"
+        app:tint="@color/purpleAccent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="8dp"/>
+
+
     <!-- Add container -->
     <LinearLayout
         android:id="@+id/searchContainer"
@@ -16,7 +30,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="8dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnThemeToggle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -29,7 +43,7 @@
             android:background="@android:drawable/edit_text"
             android:hint="@string/enter"
             android:inputType="text"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnAdd"

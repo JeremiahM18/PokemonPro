@@ -16,9 +16,27 @@ public class PokemonRepository {
         service = ApiClient.getClient().create(PokemonService.class);
     }
 
-    public boolean isValidInput(String query) {
-        // Forbidden characters
-        return !query.matches(".*[%&*(@)!;:<>].*");
+    public boolean isValidInput(String input) {
+        // Rule 1: Forbidden characters
+        String forbidden = "%&*(@)!:;<>";
+
+        for(char c : forbidden.toCharArray()) {
+            if(input.contains(String.valueOf(c))) {
+                return false;
+            }
+        }
+
+        // Rule 2: If input is a number, check range
+        try {
+            int num = Integer.parseInt(input);
+            if(num < 1 || num > 1010) {
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            // name not a number
+        }
+
+        return true;
     }
 
     public Call<PokemonResponse> getPokemon(String nameOrId) {

@@ -6,4 +6,5 @@
     <string name="watchlist">Your Watchlist</string>
     <string name="name">ID - Name</string>
     <string name="pokeImage">Pokemon image</string>
+    <string name="textColor">?android:attr/textColorSecondary</string>
 </resources>
