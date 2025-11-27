@@ -5,4 +5,5 @@
     <string name="btnAdd">Add</string>
     <string name="watchlist">Your Watchlist</string>
     <string name="name">ID - Name</string>
+    <string name="pokeImage">Pokemon image</string>
 </resources>

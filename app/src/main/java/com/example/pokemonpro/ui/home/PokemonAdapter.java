@@ -20,6 +20,17 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
     private List<Pokemon> pokemons = new ArrayList<>();
     private Context context;
 
+    // Click listener interface
+    public interface OnPokemonClickListener {
+        void onPokemonClick(Pokemon pokemon);
+    }
+
+    private OnPokemonClickListener listener;
+
+    public void setOnPokemonClickListener(OnPokemonClickListener listener) {
+        this.listener = listener;
+    }
+
     public PokemonAdapter(Context context)
     {
         this.context = context;
@@ -48,12 +59,18 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         return pokemons.size();
     }
 
-    static class PokemonViewHolder extends RecyclerView.ViewHolder {
+    class PokemonViewHolder extends RecyclerView.ViewHolder {
         TextView tvItem;
 
         public PokemonViewHolder(@NonNull View itemView) {
             super(itemView);
             tvItem = itemView.findViewById(R.id.tvPokemonItem);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onPokemonClick(pokemons.get(getAdapterPosition()));
+                }
+            });
         }
     }
 }
